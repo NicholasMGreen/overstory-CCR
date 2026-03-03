@@ -324,7 +324,7 @@ function formatYamlValue(value: unknown): string {
 /**
  * Build the starter agent manifest.
  */
-function buildAgentManifest(): AgentManifest {
+export function buildAgentManifest(): AgentManifest {
 	const agents: AgentManifest["agents"] = {
 		scout: {
 			file: "scout.md",
@@ -407,7 +407,7 @@ function buildAgentManifest(): AgentManifest {
  * {{AGENT_NAME}} placeholders and space indentation). Uses tab indentation
  * to match Biome formatting rules.
  */
-function buildHooksJson(): string {
+export function buildHooksJson(): string {
 	// Tool name extraction: reads hook stdin JSON and extracts tool_name field.
 	// Claude Code sends {"tool_name":"Bash","tool_input":{...}} on stdin for
 	// PreToolUse/PostToolUse hooks.

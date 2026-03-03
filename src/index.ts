@@ -38,6 +38,7 @@ import { createStatusCommand } from "./commands/status.ts";
 import { stopCommand } from "./commands/stop.ts";
 import { createSupervisorCommand } from "./commands/supervisor.ts";
 import { traceCommand } from "./commands/trace.ts";
+import { createUpdateCommand } from "./commands/update.ts";
 import { createUpgradeCommand } from "./commands/upgrade.ts";
 import { createWatchCommand } from "./commands/watch.ts";
 import { createWorktreeCommand } from "./commands/worktree.ts";
@@ -95,6 +96,7 @@ const COMMANDS = [
 	"run",
 	"costs",
 	"metrics",
+	"update",
 	"upgrade",
 	"completions",
 ];
@@ -389,6 +391,8 @@ program.addCommand(createRunCommand());
 program.addCommand(createCostsCommand());
 
 program.addCommand(createMetricsCommand());
+
+program.addCommand(createUpdateCommand());
 
 program.addCommand(createUpgradeCommand());
 
