@@ -391,6 +391,8 @@ export interface MergeResult {
 	tier: ResolutionTier;
 	conflictFiles: string[];
 	errorMessage: string | null;
+	/** Warnings about files where auto-resolve was skipped to prevent content loss. */
+	warnings: string[];
 }
 
 /** Parsed conflict pattern from a single mulch record. */
