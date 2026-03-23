@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.3] - 2026-03-23
+
+### Added
+
+#### Tmux Socket Isolation
+- **`tmux -L overstory` socket** — all agent sessions now run on a dedicated tmux server socket, isolating them from the user's personal tmux config (themes, plugins, keybindings). Prevents spawn failures caused by incompatible tmux configurations. See GitHub #93
+- **`TMUX_SOCKET` constant and `tmuxCmd()` helper** in `src/worktree/tmux.ts` — all tmux operations (create, list, kill, capture, send-keys) route through the shared socket builder
+
+#### Copilot Runtime Enhancements
+- **Model alias expansion** — Copilot runtime now maps short aliases (`sonnet`, `opus`, `haiku`) to fully-qualified model names (`claude-sonnet-4-6`, etc.) via `MODEL_MAP`; unknown names pass through unchanged (#77)
+- **Hooks support** — new `src/agents/copilot-hooks-deployer.ts` and `templates/copilot-hooks.json.tmpl` deploy `.github/hooks.json` to copilot worktrees for event logging
+- **Folder trust auto-configuration** — `ensureCopilotTrustedFolders()` pre-registers worktree paths in `~/.config/github-copilot/config.json` to suppress trust prompts
+- **Auto-detection in `ov init`** — runtime detection now checks for `copilot` CLI and sets it as the default if Claude Code is not installed
+
+#### Init Runtime Auto-Detection
+- **`detectDefaultRuntime()`** in `src/commands/init.ts` — `ov init` now probes for installed coding agent CLIs (claude, copilot, gemini, opencode, sapling, pi) and sets the first match as `runtime.default` in config
+
+### Fixed
+
+- **Dashboard "No tracker data" with beads backend** — `bd list --json` now handles both flat array and tree-format (`{ mol: [...] }`) output, with fallback to `bd ready --json`
+- **Codex provider prefix stripping** — `CodexRuntime` now strips `provider/` prefix from model names before passing to the `codex` CLI
+- **Pi ready-state regex** — updated pattern to match M-scale context windows (e.g., `1M`)
+- **Coordinator completion protocol ordering** — mulch recording now runs before worktree cleanup, preventing lost expertise when worktrees are removed early
+
+### Changed
+
+- All tmux operations use dedicated `overstory` socket instead of default server
+- Copilot runtime instruction path: `.github/copilot-instructions.md`
+
+### Testing
+
+- 3689 tests across 113 files (8627 `expect()` calls)
+- New test file: `src/agents/copilot-hooks-deployer.test.ts` (162 lines)
+- Expanded: `src/runtimes/copilot.test.ts` (+220 lines — model aliases, folder trust, hooks, auto-detect)
+- Expanded: `src/worktree/tmux.test.ts` (+140 lines — socket isolation, `tmuxCmd()` builder)
+- Expanded: `src/runtimes/codex.test.ts` (+35 lines — provider prefix stripping)
+- Expanded: `src/runtimes/pi.test.ts` (+24 lines — M-scale context regex)
+- Expanded: `src/tracker/factory.test.ts` (+10 lines)
+
 ## [0.9.2] - 2026-03-23
 
 ### Added
@@ -1664,7 +1703,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Biome configuration for formatting and linting
 - TypeScript strict mode with `noUncheckedIndexedAccess`
 
-[Unreleased]: https://github.com/jayminwest/overstory/compare/v0.9.2...HEAD
+[Unreleased]: https://github.com/jayminwest/overstory/compare/v0.9.3...HEAD
+[0.9.3]: https://github.com/jayminwest/overstory/compare/v0.9.2...v0.9.3
 [0.9.2]: https://github.com/jayminwest/overstory/compare/v0.9.1...v0.9.2
 [0.9.1]: https://github.com/jayminwest/overstory/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/jayminwest/overstory/compare/v0.8.7...v0.9.0

@@ -295,6 +295,7 @@ overstory/
       checkpoint.ts               Session checkpoint save/restore
       lifecycle.ts                Handoff orchestration
       hooks-deployer.ts           Deploy hooks + tool enforcement
+      copilot-hooks-deployer.ts   Deploy hooks config to Copilot worktrees
       guard-rules.ts              Shared guard constants (tool lists, bash patterns)
     worktree/                     Git worktree + tmux management
     mail/                         SQLite mail system (typed protocol, broadcast)

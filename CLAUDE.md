@@ -100,6 +100,7 @@ overstory/                        # This repo (the overstory tool itself)
       overlay.ts                  # Dynamic CLAUDE.md overlay generator
       identity.ts                 # Persistent agent identity (CVs)
       hooks-deployer.ts           # Deploy hooks config to worktree
+      copilot-hooks-deployer.ts   # Deploy hooks config to Copilot worktrees
       guard-rules.ts              # Shared guard constants (tool lists, bash patterns)
       lifecycle.ts                # Session handoff (checkpoint/resume/complete)
       checkpoint.ts               # Session checkpoint save/load/clear
@@ -184,6 +185,7 @@ overstory/                        # This repo (the overstory tool itself)
     CLAUDE.md.tmpl                # Template for orchestrator CLAUDE.md
     overlay.md.tmpl               # Template for per-worker overlay
     hooks.json.tmpl               # Template for settings.local.json
+    copilot-hooks.json.tmpl       # Template for Copilot hooks config
   # Tests colocated: src/config.test.ts, src/mail/store.test.ts, etc.
 ```
 
