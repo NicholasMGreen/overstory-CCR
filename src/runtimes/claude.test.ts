@@ -29,7 +29,7 @@ describe("ClaudeRuntime", () => {
 				env: {},
 			};
 			const cmd = runtime.buildSpawnCommand(opts);
-			expect(cmd).toBe("claude --model sonnet --permission-mode bypassPermissions");
+			expect(cmd).toBe("ccr code --model sonnet --permission-mode bypassPermissions");
 		});
 
 		test("basic command with ask permission mode", () => {
@@ -40,7 +40,7 @@ describe("ClaudeRuntime", () => {
 				env: {},
 			};
 			const cmd = runtime.buildSpawnCommand(opts);
-			expect(cmd).toBe("claude --model opus --permission-mode default");
+			expect(cmd).toBe("ccr code --model opus --permission-mode default");
 		});
 
 		test("with appendSystemPrompt (no quotes in prompt)", () => {
@@ -53,7 +53,7 @@ describe("ClaudeRuntime", () => {
 			};
 			const cmd = runtime.buildSpawnCommand(opts);
 			expect(cmd).toBe(
-				"claude --model sonnet --permission-mode bypassPermissions --append-system-prompt 'You are a builder agent.'",
+				"ccr code --model sonnet --permission-mode bypassPermissions --append-system-prompt 'You are a builder agent.'",
 			);
 		});
 
@@ -69,7 +69,7 @@ describe("ClaudeRuntime", () => {
 			// POSIX single-quote escape: end quote, backslash-quote, start quote → '\\''
 			expect(cmd).toContain("--append-system-prompt");
 			expect(cmd).toBe(
-				"claude --model sonnet --permission-mode bypassPermissions --append-system-prompt 'Don'\\''t touch the user'\\''s files'",
+				"ccr code --model sonnet --permission-mode bypassPermissions --append-system-prompt 'Don'\\''t touch the user'\\''s files'",
 			);
 		});
 
@@ -83,7 +83,7 @@ describe("ClaudeRuntime", () => {
 			};
 			const cmd = runtime.buildSpawnCommand(opts);
 			expect(cmd).toBe(
-				`claude --model opus --permission-mode bypassPermissions --append-system-prompt "$(cat '/project/.overstory/agent-defs/coordinator.md')"`,
+				`ccr code --model opus --permission-mode bypassPermissions --append-system-prompt "$(cat '/project/.overstory/agent-defs/coordinator.md')"`,
 			);
 		});
 
@@ -180,12 +180,12 @@ describe("ClaudeRuntime", () => {
 	describe("buildPrintCommand", () => {
 		test("basic command without model", () => {
 			const argv = runtime.buildPrintCommand("Summarize this diff");
-			expect(argv).toEqual(["claude", "--print", "-p", "Summarize this diff"]);
+			expect(argv).toEqual(["ccr", "code", "--print", "-p", "Summarize this diff"]);
 		});
 
 		test("command with model override", () => {
 			const argv = runtime.buildPrintCommand("Classify this error", "haiku");
-			expect(argv).toEqual(["claude", "--print", "-p", "Classify this error", "--model", "haiku"]);
+			expect(argv).toEqual(["ccr", "code", "--print", "-p", "Classify this error", "--model", "haiku"]);
 		});
 
 		test("model undefined omits --model flag", () => {
@@ -528,8 +528,8 @@ describe("ClaudeRuntime integration: spawn command matches pre-refactor behavior
 			cwd: "/project/.overstory/worktrees/builder-1",
 			env: { OVERSTORY_AGENT_NAME: "builder-1" },
 		});
-		// Pre-refactor: `claude --model ${model} --permission-mode bypassPermissions`
-		expect(cmd).toBe("claude --model sonnet --permission-mode bypassPermissions");
+		// Pre-refactor: `ccr code --model ${model} --permission-mode bypassPermissions`
+		expect(cmd).toBe("ccr code --model sonnet --permission-mode bypassPermissions");
 	});
 
 	test("coordinator-style spawn: bypass mode with appendSystemPrompt", () => {
@@ -541,9 +541,9 @@ describe("ClaudeRuntime integration: spawn command matches pre-refactor behavior
 			appendSystemPrompt: baseDefinition,
 			env: { OVERSTORY_AGENT_NAME: "coordinator" },
 		});
-		// Pre-refactor: `claude --model ${model} --permission-mode bypassPermissions --append-system-prompt '...'`
+		// Pre-refactor: `ccr code --model ${model} --permission-mode bypassPermissions --append-system-prompt '...'`
 		expect(cmd).toBe(
-			`claude --model opus --permission-mode bypassPermissions --append-system-prompt '# Coordinator\nYou are the coordinator agent.'`,
+			`ccr code --model opus --permission-mode bypassPermissions --append-system-prompt '# Coordinator\nYou are the coordinator agent.'`,
 		);
 	});
 
@@ -572,7 +572,7 @@ describe("ClaudeRuntime integration: spawn command matches pre-refactor behavior
 			env: { OVERSTORY_AGENT_NAME: "monitor" },
 		});
 		expect(cmd).toBe(
-			`claude --model sonnet --permission-mode bypassPermissions --append-system-prompt '# Monitor\nYou patrol the fleet.'`,
+			`ccr code --model sonnet --permission-mode bypassPermissions --append-system-prompt '# Monitor\nYou patrol the fleet.'`,
 		);
 	});
 });

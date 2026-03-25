@@ -56,7 +56,7 @@ export class ClaudeRuntime implements AgentRuntime {
 	 */
 	buildSpawnCommand(opts: SpawnOpts): string {
 		const permMode = opts.permissionMode === "bypass" ? "bypassPermissions" : "default";
-		let cmd = `claude --model ${opts.model} --permission-mode ${permMode}`;
+		let cmd = `ccr code --model ${opts.model} --permission-mode ${permMode}`;
 
 		if (opts.appendSystemPromptFile) {
 			// Read from file at shell expansion time — avoids tmux IPC message size
@@ -90,7 +90,7 @@ export class ClaudeRuntime implements AgentRuntime {
 	 * @returns Argv array for Bun.spawn
 	 */
 	buildPrintCommand(prompt: string, model?: string): string[] {
-		const cmd = ["claude", "--print", "-p", prompt];
+		const cmd = ["ccr", "code", "--print", "-p", prompt];
 		if (model !== undefined) {
 			cmd.push("--model", model);
 		}
